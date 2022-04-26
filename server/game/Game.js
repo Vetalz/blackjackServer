@@ -10,8 +10,13 @@ module.exports = class Game {
     this.addPlayer('Alexander');
     this.addPlayer('Pavel');
     this.addPlayer('Victoria');
+    this.currentPlayer = this.players[0];
     this.cardDeck = getCardDeck();
     this.startGiveCards();
+  }
+
+  toJSON() {
+    return {players: this.players, currentPlayer: this.currentPlayer, result: this.result}
   }
 
   addPlayer(name) {
@@ -24,12 +29,12 @@ module.exports = class Game {
 
     for(let i=1; i <= countStartCard; i++) {
       for (const player of this.players) {
-        this.giveCard(player);
+        this.hit(player);
       }
     }
   }
 
-  giveCard(player) {
+  hit(player) {
     if (player.isOver || player.isStand) {
       this.nextMove(player);
     } else {
@@ -51,7 +56,7 @@ module.exports = class Game {
     }
   }
 
-  stopGame(player) {
+  stand(player) {
     player.isStand = true;
     this.nextMove(player);
   }
