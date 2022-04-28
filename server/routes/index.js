@@ -10,7 +10,7 @@ router.get('/api/game', (ctx) => {
 
 router.post('/api/hit', (ctx) => {
   game.hit(game.currentPlayer);
-  ctx.body = {currentPlayer: game.currentPlayer, result: game.result}
+  ctx.body = game;
 })
 
 router.post('/api/stand', (ctx) => {

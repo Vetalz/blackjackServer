@@ -33,10 +33,11 @@ export const reducer = handleActions({
       }
     },
     [hit.success]: (state, {payload}) => {
-      const {currentPlayer, result} = payload.data;
+      const {players, currentPlayer, result} = payload.data;
       return {
         ...state,
         loading: false,
+        players,
         currentPlayer,
         result
       }
