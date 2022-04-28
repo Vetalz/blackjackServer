@@ -1,39 +1,13 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 
-const Card = ({cardSuit, cardName, cardValue}) => {
-  const renderSuit = useCallback((suit) => {
-    let sign = '';
-    switch (suit) {
-      case 'diamond':
-        sign = '♦'
-        break
-      case 'heart':
-        sign = '♥'
-        break
-      case 'spade':
-        sign = '♠'
-        break
-      case 'club':
-        sign = '♣'
-        break
-    }
-    return sign;
-  }, [cardSuit])
-
-  const getColor = useCallback((suit) => {
-    if (suit === 'diamond' || suit === 'heart') {
-      return 'red';
-    }
-    return 'black';
-  }, [cardSuit])
-
+const Card = ({cardSuit, cardName}) => {
   return (
-    <div className={`card ${getColor(cardSuit)}`}>
+    <div className={`card ${cardSuit}`}>
       <div className="top">
         <span>{cardName}</span>
       </div>
       <div className="middle">
-        <span>{renderSuit(cardSuit)}</span>
+        <span>{cardSuit}</span>
       </div>
       <div className="bottom">
         <span>{cardName}</span>

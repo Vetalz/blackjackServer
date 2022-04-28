@@ -23,10 +23,7 @@ const App = ({loading, fetched, result, getGame}) => {
       }
       <Table />
       <Dealer />
-      {result
-        ? <Modal />
-        : null
-      }
+      {result && <Modal />}
     </React.Fragment>
   );
 };

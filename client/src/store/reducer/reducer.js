@@ -9,69 +9,43 @@ const defaultState = {
   fetched: false,
 }
 
+const handlerLoading = (state) => {
+  return {
+    ...state,
+    loading: true
+  }
+}
+
+const handlerGetGameSuccess = (state, {payload}) => {
+  const {players, currentPlayer} = payload.data;
+  return {
+    ...state,
+    players,
+    currentPlayer,
+    loading: false,
+    fetched: true
+  }
+}
+
+const handlerGetStepSuccess = (state, {payload}) => {
+  const {players, currentPlayer, result} = payload.data;
+  return {
+    ...state,
+    loading: false,
+    players,
+    currentPlayer,
+    result
+  }
+}
+
 export const reducer = handleActions({
-    [getGame]: (state, {payload}) => {
-      return {
-        ...state,
-        loading: true
-      }
-    },
-    [getGame.success]: (state, {payload}) => {
-      const {players, currentPlayer} = payload.data;
-      return {
-        ...state,
-        players,
-        currentPlayer,
-        loading: false,
-        fetched: true
-      }
-    },
-    [hit]: (state, {payload}) => {
-      return {
-        ...state,
-        loading: true
-      }
-    },
-    [hit.success]: (state, {payload}) => {
-      const {players, currentPlayer, result} = payload.data;
-      return {
-        ...state,
-        loading: false,
-        players,
-        currentPlayer,
-        result
-      }
-    },
-    [stand]: (state, {payload}) => {
-      return {
-        ...state,
-        loading: true
-      }
-    },
-    [stand.success]: (state, {payload}) => {
-      const {currentPlayer, result} = payload.data;
-      return {
-        ...state,
-        loading: false,
-        currentPlayer,
-        result
-      }
-    },
-    [restart]: (state, {payload}) => {
-      return {
-        ...state,
-        loading: true
-      }
-    },
-    [restart.success]: (state, {payload}) => {
-      const {players, currentPlayer, result} = payload.data;
-      return {
-        ...state,
-        players,
-        currentPlayer,
-        result,
-        loading: false,
-      }
-    }
+    [getGame]: handlerLoading,
+    [getGame.success]: handlerGetGameSuccess,
+    [hit]: handlerLoading,
+    [hit.success]: handlerGetStepSuccess,
+    [stand]: handlerLoading,
+    [stand.success]: handlerGetStepSuccess,
+    [restart]: handlerLoading,
+    [restart.success]: handlerGetStepSuccess
   }
 , defaultState)

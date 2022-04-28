@@ -12,7 +12,7 @@ const Player = ({name, score, cards, isOver, isActive}) => {
       </div>
       <div className="cards">
         {cards.map((card, i) =>
-          <Card cardSuit={card.cardSuit} cardName={card.cardName} cardValue={card.cardValue} key={i}/>
+          <Card cardSuit={card.cardSuit} cardName={card.cardName} key={i}/>
         )}
       </div>
     </div>

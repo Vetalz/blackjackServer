@@ -34,7 +34,7 @@ module.exports = class Game {
     }
   }
 
-  hit(player) {
+  hit(player=this.currentPlayer) {
     if (player.isOver || player.isStand) {
       this.nextMove(player);
     } else {
@@ -56,7 +56,7 @@ module.exports = class Game {
     }
   }
 
-  stand(player) {
+  stand(player=this.currentPlayer) {
     player.isStand = true;
     this.nextMove(player);
   }

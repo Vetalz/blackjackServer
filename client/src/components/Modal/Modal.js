@@ -6,11 +6,11 @@ const Modal = ({result, restart, loading}) => {
       <div className="modal">
         <h2>Result</h2>
         <h1>
-          <span className="black">♠</span>
-          <span className="red">♥</span>
+          <span className="♠">♠</span>
+          <span className="♥">♥</span>
           <span>{result}</span>
-          <span className="red">♦</span>
-          <span className="black">♣</span>
+          <span className="♦">♦</span>
+          <span className="♣">♣</span>
         </h1>
         <button className="hit" onClick={restart} disabled={loading}>Play again</button>
       </div>

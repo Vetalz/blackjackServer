@@ -9,13 +9,13 @@ router.get('/api/game', (ctx) => {
 })
 
 router.post('/api/hit', (ctx) => {
-  game.hit(game.currentPlayer);
+  game.hit();
   ctx.body = game;
 })
 
 router.post('/api/stand', (ctx) => {
-  game.stand(game.currentPlayer);
-  ctx.body = {currentPlayer: game.currentPlayer, result: game.result}
+  game.stand();
+  ctx.body = game;
 })
 
 router.post('/api/restart', (ctx) => {
