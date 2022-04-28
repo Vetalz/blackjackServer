@@ -10,17 +10,17 @@ router.get('/api/game', (ctx) => {
 
 router.post('/api/hit', (ctx) => {
   game.hit(game.currentPlayer);
-  ctx.body = game.currentPlayer
+  ctx.body = {currentPlayer: game.currentPlayer, result: game.result}
 })
 
 router.post('/api/stand', (ctx) => {
   game.stand(game.currentPlayer);
-  ctx.body = game.currentPlayer
+  ctx.body = {currentPlayer: game.currentPlayer, result: game.result}
 })
 
 router.post('/api/restart', (ctx) => {
   game = new Game();
-  ctx.body = game.players;
+  ctx.body = game;
 })
 
 module.exports = router

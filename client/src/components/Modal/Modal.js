@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Modal = () => {
+const Modal = ({result, restart, loading}) => {
   return (
     <div className="modal-back">
       <div className="modal">
@@ -8,11 +8,11 @@ const Modal = () => {
         <h1>
           <span className="black">♠</span>
           <span className="red">♥</span>
-          <span>Draw</span>
+          <span>{result}</span>
           <span className="red">♦</span>
           <span className="black">♣</span>
         </h1>
-        <button className="hit">Play again</button>
+        <button className="hit" onClick={restart} disabled={loading}>Play again</button>
       </div>
     </div>
   );

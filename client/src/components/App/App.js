@@ -1,13 +1,32 @@
-import React from 'react';
-import Table from "../Table/Table";
-import Dealer from "../Dealer/Dealer";
-import Modal from "../Modal/Modal";
+import React, {useEffect} from 'react';
+import Table from "../Table";
+import Dealer from "../Dealer";
+import Loading from "../Loading/Loading";
+import Modal from "../Modal";
 
-const App = () => {
+const App = ({loading, fetched, result, getGame}) => {
+  useEffect(() => {
+    getGame();
+  }, [])
+
+  if (!fetched) {
+    return (
+      <Loading />
+    )
+  }
+
   return (
     <React.Fragment>
+      {loading
+        ? <Loading />
+        : null
+      }
       <Table />
       <Dealer />
+      {result
+        ? <Modal />
+        : null
+      }
     </React.Fragment>
   );
 };
