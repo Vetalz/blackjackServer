@@ -6,10 +6,8 @@ module.exports = class Game {
   currentPlayer;
   result = null;
 
-  constructor() {
-    this.addPlayer('Alexander');
-    this.addPlayer('Pavel');
-    this.addPlayer('Victoria');
+  constructor(players) {
+    players.map((name) => this.addPlayer(name));
     this.currentPlayer = this.players[0];
     this.cardDeck = getCardDeck();
     this.startGiveCards();
