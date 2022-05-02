@@ -1,31 +1,12 @@
-import React, {useEffect} from 'react';
-import Table from "../Table";
-import Dealer from "../Dealer";
-import Loading from "../Loading/Loading";
-import Modal from "../Modal";
+import React from 'react';
+import {Navigate} from 'react-router-dom';
 
-const App = ({loading, fetched, result, getGame}) => {
-  useEffect(() => {
-    getGame();
-  }, [])
-
-  if (!fetched) {
-    return (
-      <Loading />
-    )
+const App = ({token}) => {
+  if (!token) {
+    return <Navigate to='/login'/>;
   }
 
-  return (
-    <React.Fragment>
-      {loading
-        ? <Loading />
-        : null
-      }
-      <Table />
-      <Dealer />
-      {result && <Modal />}
-    </React.Fragment>
-  );
+  return <Navigate to='/game'/>;
 };
 
 export default App;

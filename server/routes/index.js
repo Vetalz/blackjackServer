@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const {jwtKey} = require("../keys");
 const router = new Router();
 
+const {createReadStream} = require('fs')
+
 let games = {};
 
 const authorizationMiddleware = (ctx, next) => {
@@ -90,6 +92,11 @@ router.post('/api/restart', authorizationMiddleware, checkGames, (ctx) => {
   const game = new Game(playersName);
   games[session.id] = game;
   ctx.body = game;
+})
+
+router.get('/(.*)', (ctx) => {
+  ctx.type = 'html';
+  ctx.body = createReadStream(__dirname + '/../static/index.html');
 })
 
 module.exports = router;

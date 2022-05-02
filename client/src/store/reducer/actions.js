@@ -8,6 +8,16 @@ const createRequestAction = (type, payloadCreator) => {
   return action;
 }
 
+export const login = createRequestAction('LOGIN', (names) => ({
+  request: {
+    method: 'post',
+    url: '/login',
+    data: {
+      'players': names
+    }
+  }
+}))
+
 export const getGame = createRequestAction('GET_GAME', () => ({
   request: {
     method: 'get',
