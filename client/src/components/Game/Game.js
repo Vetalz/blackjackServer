@@ -3,16 +3,22 @@ import Table from "../Table";
 import Dealer from "../Dealer";
 import Loading from "../Loading/Loading";
 import Modal from "../Modal";
+import {Navigate} from "react-router-dom";
 
-const Game = ({loading, fetched, result, getGame}) => {
+const Game = ({loading, fetched, result, token, getGame}) => {
   useEffect(() => {
-    getGame();
+    if (!fetched) {
+      getGame(token);
+    }
   }, [])
 
   if (!fetched) {
     return (
       <Loading />
     )
+  }
+  if (!token) {
+    return <Navigate to='/login'/>;
   }
 
   return (

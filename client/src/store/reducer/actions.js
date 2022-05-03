@@ -18,30 +18,42 @@ export const login = createRequestAction('LOGIN', (names) => ({
   }
 }))
 
-export const getGame = createRequestAction('GET_GAME', () => ({
+export const getGame = createRequestAction('GET_GAME', (token) => ({
   request: {
     method: 'get',
-    url: '/game'
+    url: '/game',
+    headers: {
+      'authorization': token
+    }
   }
 }));
 
-export const hit = createRequestAction('HIT', () => ({
+export const hit = createRequestAction('HIT', (token) => ({
   request: {
     method: 'post',
-    url: '/hit'
+    url: '/hit',
+    headers: {
+      'authorization': token
+    }
   }
 }));
 
-export const stand = createRequestAction('STAND', () => ({
+export const stand = createRequestAction('STAND', (token) => ({
   request: {
     method: 'post',
-    url: '/stand'
+    url: '/stand',
+    headers: {
+      'authorization': token
+    }
   }
 }));
 
-export const restart = createRequestAction('RESTART', () => ({
+export const restart = createRequestAction('RESTART', (token) => ({
   request: {
     method: 'post',
-    url: '/restart'
+    url: '/restart',
+    headers: {
+      'authorization': token
+    }
   }
 }));

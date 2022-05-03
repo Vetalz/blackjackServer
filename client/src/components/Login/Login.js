@@ -1,12 +1,8 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Navigate} from 'react-router-dom';
 
 const Login = ({token, login}) => {
   const [players, setPlayers] = useState(['', '']);
-
-  if (token) {
-    return <Navigate to="/game"/>
-  }
 
   const addPlayer = useCallback(() => {
     setPlayers([...players, '']);
@@ -25,6 +21,10 @@ const Login = ({token, login}) => {
   const startGame = useCallback(() => {
     login(players);
   }, [players])
+
+  if (token) {
+    return <Navigate to="/game"/>
+  }
 
   return (
     <div className="login">

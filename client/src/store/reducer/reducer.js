@@ -18,24 +18,26 @@ const handlerLoading = (state) => {
 }
 
 const handlerGetGameSuccess = (state, {payload}) => {
-  const {players, currentPlayer} = payload.data;
+  const {game} = payload.data;
+
   return {
     ...state,
-    players,
-    currentPlayer,
+    players: game.players,
+    currentPlayer: game.currentPlayer,
+    result: game.result,
     loading: false,
     fetched: true
   }
 }
 
 const handlerGetStepSuccess = (state, {payload}) => {
-  const {players, currentPlayer, result} = payload.data;
+  const {game} = payload.data;
   return {
     ...state,
     loading: false,
-    players,
-    currentPlayer,
-    result
+    players: game.players,
+    currentPlayer: game.currentPlayer,
+    result: game.result,
   }
 }
 
@@ -45,10 +47,21 @@ const handlerLoginSuccess = (state, {payload}) => {
   return {
     ...state,
     loading: false,
+    fetched: true,
     token,
     players: game.players,
     currentPlayer: game.currentPlayer,
     result: game.result
+  }
+}
+
+const handlerFail = (state, {payload}) => {
+  localStorage.clear();
+  return {
+    ...state,
+    token: null,
+    loading: false,
+    fetched: true,
   }
 }
 
@@ -57,11 +70,15 @@ export const reducer = handleActions({
     [login.success]: handlerLoginSuccess,
     [getGame]: handlerLoading,
     [getGame.success]: handlerGetGameSuccess,
+    [getGame.fail]: handlerFail,
     [hit]: handlerLoading,
     [hit.success]: handlerGetStepSuccess,
+    [hit.fail]: handlerFail,
     [stand]: handlerLoading,
     [stand.success]: handlerGetStepSuccess,
+    [stand.fail]: handlerFail,
     [restart]: handlerLoading,
-    [restart.success]: handlerGetStepSuccess
+    [restart.success]: handlerGetStepSuccess,
+    [restart.fail]: handlerFail,
   }
 , defaultState)

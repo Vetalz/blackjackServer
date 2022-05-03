@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Modal = ({result, restart, loading}) => {
+const Modal = ({result, restart, token, loading}) => {
   return (
     <div className="modal-back">
       <div className="modal">
@@ -12,7 +12,7 @@ const Modal = ({result, restart, loading}) => {
           <span className="♦">♦</span>
           <span className="♣">♣</span>
         </h1>
-        <button className="hit" onClick={restart} disabled={loading}>Play again</button>
+        <button className="hit" onClick={() => restart(token)} disabled={loading}>Play again</button>
       </div>
     </div>
   );

@@ -72,17 +72,23 @@ router.post('/api/login', async (ctx) => {
 })
 
 router.get('/api/game', authorizationMiddleware, checkGames, (ctx) => {
-  ctx.body = ctx.state.game;
+  ctx.body = {
+    game: ctx.state.game,
+  };
 })
 
 router.post('/api/hit', authorizationMiddleware, checkGames, (ctx) => {
   ctx.state.game.hit();
-  ctx.body = ctx.state.game;
+  ctx.body = {
+    game: ctx.state.game,
+  };
 })
 
 router.post('/api/stand', authorizationMiddleware, checkGames, (ctx) => {
   ctx.state.game.stand();
-  ctx.body = ctx.state.game;
+  ctx.body = {
+    game: ctx.state.game,
+  };
 })
 
 router.post('/api/restart', authorizationMiddleware, checkGames, (ctx) => {
@@ -91,7 +97,9 @@ router.post('/api/restart', authorizationMiddleware, checkGames, (ctx) => {
 
   const game = new Game(playersName);
   games[session.id] = game;
-  ctx.body = game;
+  ctx.body = {
+    game,
+  };
 })
 
 router.get('/(.*)', (ctx) => {
