@@ -41,6 +41,7 @@ const handlerGetStepSuccess = (state, {payload}) => {
 
 const handlerLoginSuccess = (state, {payload}) => {
   const {token, game} = payload.data;
+  localStorage.setItem('token', token);
   return {
     ...state,
     loading: false,

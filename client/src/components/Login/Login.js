@@ -4,10 +4,6 @@ import {Navigate} from 'react-router-dom';
 const Login = ({token, login}) => {
   const [players, setPlayers] = useState(['', '']);
 
-  useEffect(() => {
-    localStorage.setItem('token', token);
-  },[token])
-
   if (token) {
     return <Navigate to="/game"/>
   }
