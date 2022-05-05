@@ -8,7 +8,7 @@ import {Navigate} from "react-router-dom";
 const Game = ({loading, fetched, result, token, getGame}) => {
   useEffect(() => {
     if (!fetched) {
-      getGame(token);
+      getGame();
     }
   }, [])
 

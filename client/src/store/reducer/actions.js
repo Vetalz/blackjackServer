@@ -22,9 +22,6 @@ export const getGame = createRequestAction('GET_GAME', (token) => ({
   request: {
     method: 'get',
     url: '/game',
-    headers: {
-      'authorization': token
-    }
   }
 }));
 
@@ -32,9 +29,6 @@ export const hit = createRequestAction('HIT', (token) => ({
   request: {
     method: 'post',
     url: '/hit',
-    headers: {
-      'authorization': token
-    }
   }
 }));
 
@@ -42,9 +36,6 @@ export const stand = createRequestAction('STAND', (token) => ({
   request: {
     method: 'post',
     url: '/stand',
-    headers: {
-      'authorization': token
-    }
   }
 }));
 
@@ -52,8 +43,5 @@ export const restart = createRequestAction('RESTART', (token) => ({
   request: {
     method: 'post',
     url: '/restart',
-    headers: {
-      'authorization': token
-    }
   }
 }));

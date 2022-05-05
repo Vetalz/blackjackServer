@@ -1,0 +1,5 @@
+.idea/
+server/node_modules
+client/node_modules
+server/static
+server/keys.js
