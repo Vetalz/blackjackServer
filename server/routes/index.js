@@ -1,27 +1,26 @@
 const Router = require('@koa/router');
-const Game = require("../game/Game");
 const {Validator} = require("node-input-validator");
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
-const {jwtKey} = require("../keys");
+const Game = require("../models/Game");
+const Player = require("../models/Player");
+const {createReadStream} = require('fs');
+
 const router = new Router();
 
-const {createReadStream} = require('fs')
-
-let games = {};
-
-const authorizationMiddleware = (ctx, next) => {
+const authorizationMiddleware = async (ctx, next) => {
   const token = ctx.header['authorization'];
 
   try {
-    const session = jwt.verify(token, jwtKey);
-    const sessions = Object.keys(games)
+    const session = jwt.verify(token, process.env.JWT_KEY);
+    const game = await Game.findOne({id: session.id});
 
-    if (!sessions.includes(session.id)) {
+    if (!game) {
       ctx.status = 401;
       return;
     }
-    ctx.state.session = session;
+    ctx.state.session = session.id;
+    ctx.state.game = game;
 
     return next();
   }
@@ -30,19 +29,15 @@ const authorizationMiddleware = (ctx, next) => {
   }
 }
 
-checkGames = (ctx, next) => {
-  const session = ctx.state.session;
-
-  if (!games[session.id]) {
-    ctx.status = 401;
-
-    return;
-  }
-
-  ctx.state.game = games[session.id];
-  return next();
+const generateOutput = async (session, game) => {
+  return {
+    game: {
+      players: await Player.find({gameId: session}),
+      currentPlayer: await Player.findById(game.currentPlayer),
+      result: game.result
+    }
+  };
 }
-
 
 router.post('/api/login', async (ctx) => {
   let v = new Validator(
@@ -61,45 +56,36 @@ router.post('/api/login', async (ctx) => {
   const session = {
     id: uuidv4(),
   };
-  const token = jwt.sign(session, jwtKey);
-  const game = new Game(players);
-  games[session.id] = game;
+  const token = jwt.sign(session, process.env.JWT_KEY);
+  const game = new Game({id: session.id});
+  await game.addPlayer(players);
 
-  ctx.body = {
-    token,
-    game
-  };
+  ctx.body = {...await generateOutput(session.id, game), token};
 })
 
-router.get('/api/game', authorizationMiddleware, checkGames, (ctx) => {
-  ctx.body = {
-    game: ctx.state.game,
-  };
+router.get('/api/game', authorizationMiddleware, async (ctx) => {
+  ctx.body = await generateOutput(ctx.state.session, ctx.state.game);
 })
 
-router.post('/api/hit', authorizationMiddleware, checkGames, (ctx) => {
-  ctx.state.game.hit();
-  ctx.body = {
-    game: ctx.state.game,
-  };
+router.post('/api/hit', authorizationMiddleware, async (ctx) => {
+  const game = ctx.state.game;
+  await game.hit();
+
+  ctx.body = await generateOutput(ctx.state.session, game);
 })
 
-router.post('/api/stand', authorizationMiddleware, checkGames, (ctx) => {
-  ctx.state.game.stand();
-  ctx.body = {
-    game: ctx.state.game,
-  };
+router.post('/api/stand', authorizationMiddleware, async (ctx) => {
+  const game = ctx.state.game;
+  await game.stand();
+
+  ctx.body = await generateOutput(ctx.state.session, game);
 })
 
-router.post('/api/restart', authorizationMiddleware, checkGames, (ctx) => {
-  const playersName = ctx.state.game.players.map((player) => player.name);
-  const session = ctx.state.session;
+router.post('/api/restart', authorizationMiddleware, async (ctx) => {
+  const game = ctx.state.game;
+  await game.restart();
 
-  const game = new Game(playersName);
-  games[session.id] = game;
-  ctx.body = {
-    game,
-  };
+  ctx.body = await generateOutput(ctx.state.session, game);
 })
 
 router.get('/(.*)', (ctx) => {
